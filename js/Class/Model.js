@@ -5,8 +5,9 @@ export class Model {
         this.changeFormId = 'changeForm'
         this.noContactsContainerId = 'noContact'
         this.contactsContainerId = 'addContactContainer'
-        this.searchContainerId = 'search'
+        this.searchKey = 'search'
         this.searchInputId = 'searchInput'
+        this.searchSelect = 'searchSelect'
         this.searchBtnClearId = 'searchInputClear'
         this.changeId = null
     }
@@ -16,7 +17,7 @@ export class Model {
     }
 
     set setChangeData(data) {
-        const savedData = this.getData;
+        const savedData = this.data;
         data.id = this.changeId;
         const oldData = savedData.filter(item => item.id !== data.id)
         oldData.push(data)
@@ -25,8 +26,16 @@ export class Model {
         localStorage.setItem(this.formId, this.toJson(oldData))
     }
 
-    set setData(data) {
-        const savedData = this.getData;
+    setSearchData(data) {
+        localStorage.setItem(this.searchKey, JSON.stringify(data))
+    }
+
+    get searchData() {
+        return JSON.parse(localStorage.getItem(this.searchKey));
+    }
+
+    setData(data) {
+        const savedData = this.data;
         const dataContainer = savedData ? savedData : [];
         if(dataContainer.length){
             data.id = dataContainer[dataContainer.length-1].id + 1;
@@ -39,12 +48,12 @@ export class Model {
         localStorage.setItem(this.formId, this.toJson(dataContainer))
     }
 
-    get getData() {
+    get data() {
         return JSON.parse(localStorage.getItem(this.formId));
     }
 
-    clearStorage() {
-        localStorage.clear()
+    removeStorageItem(itemKey) {
+        localStorage.removeItem(itemKey)
     }
 
 

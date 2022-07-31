@@ -3,40 +3,47 @@ export class View {
 
     renderForm(containerId) {
         const container = document.getElementById(containerId)
-        const div = document.createElement('div');
-        div.classList.add('col-5', 'mb-4');
-        div.setAttribute('data-container', "inputForm");
-        div.innerHTML = `<form id="form">
-                            <div class="mb-3">
-                                <label class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Phone number</label>
-                                <input type="number" name="phone" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Position</label>
-                                <input type="text" name="position" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Add contact</button>
-                        </form>`
-        container.append(div)
+        const form = document.createElement('form');
+        form.classList.add('col-5', 'mb-4');
+        form.setAttribute('data-container', "inputForm");
+        form.setAttribute('id', "form");
+        form.innerHTML = `<div class="mb-3">
+                             <label class="form-label">Name</label>
+                             <input type="text" name="name" class="form-control">
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Phone number</label>
+                             <input type="number" name="phone" class="form-control">
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Position</label>
+                             <input type="text" name="position" class="form-control">
+                         </div>
+                         <button type="submit" class="btn btn-primary">Add contact</button>`
+        container.append(form);
+
+        return form
     }
 
     renderSearchInput(containerId) {
         const container = document.getElementById(containerId)
-        const div = document.createElement('div');
-        div.classList.add('row', 'g-3');
-        div.setAttribute('id', "search");
-        div.innerHTML = `<div class="col-5">
-                             <label  class="visually-hidden">Search</label>
-                             <input type="text" class="form-control" id="searchInput"  placeholder="Search" disabled>
-                         </div>
-                         <div class="col-auto">
-                             <button type="submit" class="btn btn-primary mb-3" id="searchInputClear" disabled>Clear</button>
-                         </div>`
-        container.append(div)
+        const searchForm = document.createElement('form');
+        searchForm.classList.add('row', 'g-3');
+        searchForm.setAttribute('id', "search");
+        searchForm.innerHTML = `<div class="col-5">
+                                    <label  class="visually-hidden">Search</label>
+                                    <input type="text" class="form-control searchInput" id="searchInput"  placeholder="Search" disabled>
+                                </div>
+                                <select class="form-select mb-3 col-2 searchSelect" id="searchSelect" style="max-width: 105px" disabled>
+                                    <option value="name">Name</option>
+                                    <option value="number">Number</option>
+                                </select>
+                                <div class="col-auto gap-2">
+                                    <button type="submit" class="btn btn-primary mb-3 clear" id="searchInputClear" disabled>Clear</button>
+                                </div>`
+        container.append(searchForm);
+
+        return searchForm
     }
 
     renderNoContacts(containerId) {
@@ -56,10 +63,12 @@ export class View {
 
     renderAddContactContainer(contactsContainerId) {
         const container = document.getElementById(contactsContainerId)
-        const div = document.createElement('div');
-        div.classList.add('row');
-        div.setAttribute('id', `addContactContainer`);
-        container.append(div)
+        const contactsContainer = document.createElement('div');
+        contactsContainer.classList.add('row');
+        contactsContainer.setAttribute('id', `addContactContainer`);
+        container.append(contactsContainer)
+
+        return contactsContainer
     }
 
     addContact(contactsContainerId, data) {
@@ -89,22 +98,21 @@ export class View {
         div.setAttribute('data-container', "changeContactContainer");
         div.innerHTML = `<form id="changeForm">
                             <div class="mb-3">
-                                <label class="form-label">${data.name}</label>
-                                <input type="text" name="name" class="form-control">
+                                <label class="form-label">Name</label>
+                                <input type="text" name="name" class="form-control" value=${data.name}>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">${data.phone}</label>
-                                <input type="number" name="phone" class="form-control">
+                                <label class="form-label">Phone number</label>
+                                <input type="number" name="phone" class="form-control" value=${data.phone}>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">${data.position}</label>
-                                <input type="text" name="position" class="form-control">
+                                <label class="form-label">Position</label>
+                                <input type="text" name="position" class="form-control" value=${data.position}>
                             </div>
                             <div class="d-grid gap-2 d-md-block">
                                 <button type="submit" class="btn btn-primary">Change</button>
                                 <a type="button" class="btn btn-primary" data-back="true">Back</a>
                             </div>
-<!--                             <button type="submit" class="btn btn-primary">Change</button> -->
                         </form>`
         container.append(div)
     }
@@ -140,4 +148,12 @@ export class View {
             container.remove()
         }
     }
+    setDisabledAttribute(element) {
+        element.setAttribute('disabled', '')
+    }
+
+    removeDisabledAttribute(element) {
+        element.removeAttribute('disabled')
+    }
+
 }
